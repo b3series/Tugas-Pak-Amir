@@ -24,23 +24,23 @@ public class Adttanggal {
         
         if (bulan % 2 == 0){
             hari = 30;
-            bln = nama_bulan[bulan];
+            bln = nama_bulan[bulan-1];
             
             //tahun kabisat 
             if (kabisat==0){
                 hari =29;
-                bln = nama_bulan[bulan];
+                bln = nama_bulan[bulan-1];
                 
             }
                 else {
                         hari = 28;
-                        bln = nama_bulan[bulan];
+                        bln = nama_bulan[bulan-1];
                         
                         }
             }
         else if (bulan %2 == 1){
             hari = 31;
-            bln = nama_bulan[bulan];
+            bln = nama_bulan[bulan-1];
         }
         
         boolean x, y, z;
