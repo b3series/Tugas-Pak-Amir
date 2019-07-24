@@ -1,120 +1,98 @@
-public class DoublyLinkedList<T> {
+public class DoubleLinked { 
+    Node head; 
+  
+    class Node { 
+        int data; 
+        Node prev; 
+        Node next; 
 
-	private Node<T> head;
-	private Node<T> tail;
+        Node(int d) { data = d; } 
+    } 
 
-	public void insertFirst(final T value) {
-		final Node<T> node = new Node<>(value);
-		node.next = head;
-		if (head != null) {
-			head.previous = node;
-		}
+    public void push(int new_data) 
+    { 
 
-		head = node;
+        Node new_Node = new Node(new_data); 
+  
+        new_Node.next = head; 
+        new_Node.prev = null; 
+  
+        if (head != null) 
+            head.prev = new_Node; 
+  
+        head = new_Node; 
+    } 
 
-		if (tail == null) {
-			tail = node;
-		}
-	}
-	public void insertLast(final T value) {
-		final Node<T> node = new Node<>(value);
-		if (tail != null) {
-			tail.next = node;
-			node.previous = tail;
-		}
-		tail = node;
+    public void InsertAfter(Node prev_Node, int new_data) 
+    { 
 
-		if (head == null) {
-			head = node;
-		}
-	}
-	public T removeFirst() {
-		T value = null;
-		if (head != null) {
-			value = head.value;
-			if (head == tail) {
-				tail = null;
-			}
+        if (prev_Node == null) { 
+            System.out.println("The given previous node cannot be NULL "); 
+            return; 
+        } 
+  
+        Node new_node = new Node(new_data); 
 
-			head = head.next;
-			head.previous = null;
-		}
+        new_node.next = prev_Node.next; 
 
-		return value;
-	}
+        prev_Node.next = new_node; 
+  
+        new_node.prev = prev_Node; 
 
-	public T removeLast() {
-		T value = null;
-		if (tail != null) {
-			value = tail.value;
+        if (new_node.next != null) 
+            new_node.next.prev = new_node; 
+    } 
+  
+    void append(int new_data) 
+    { 
 
-			if (tail == head) {
-				head = tail = null;
-			} else {
-				tail = tail.previous;
-				tail.next = null;
-			}
-		}
-		return value;
-	}
-	public T remove(final T value) {
-		T deletedObj = null;
-		if (head != null) {
-			if (head == tail) {
-				if (head.value.equals(value)) {
-					deletedObj = head.value;
-					head = tail = null;
-				}
-			} else {
-				Node<T> node = head;
-				do {
-					if (node.value.equals(value)) {
-						deletedObj = node.value;
+        Node new_node = new Node(new_data); 
+  
+        Node last = head; /* used in step 5*/
+  
+        new_node.next = null; 
+  
 
-						if (node.previous != null) {
-							node.previous.next = node.next;
+        if (head == null) { 
+            new_node.prev = null; 
+            head = new_node; 
+            return; 
+        } 
 
-						}
-						node.next.previous = node.previous;
-						break;
-					}
-					node = node.next;
-				} while (node != null);
-			}
-		}
-
-		return deletedObj;
-	}
-	private static class Node<T> {
-		T value;
-		Node<T> next;
-		Node<T> previous;
-
-		private Node(T value) {
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return "Node [value=" + value + "]";
-		}
-	}
-
-	public static void main(String[] args) {
-		final DoublyLinkedList<Integer> doublyLinkedList = new DoublyLinkedList<>();
-
-		doublyLinkedList.insertFirst(5);
-		doublyLinkedList.insertFirst(1);
-		doublyLinkedList.insertFirst(2);
-		doublyLinkedList.insertLast(3);
-		doublyLinkedList.insertLast(4);
-		System.out.println(doublyLinkedList.removeFirst());
-		System.out.println(doublyLinkedList.removeFirst());
-		System.out.println(doublyLinkedList.removeLast());
-		System.out.println(doublyLinkedList.removeLast());
-		System.out.println(doublyLinkedList.remove(5));
-		System.out.println(doublyLinkedList.remove(2));
-
-	}
-
-}
+        while (last.next != null) 
+            last = last.next; 
+  
+        last.next = new_node; 
+ 
+        new_node.prev = last; 
+    } 
+  
+    public void printlist(Node node) 
+    { 
+        Node last = null; 
+        System.out.println("Traversal in forward Direction"); 
+        while (node != null) { 
+            System.out.print(node.data + " "); 
+            last = node; 
+            node = node.next; 
+        } 
+        System.out.println(); 
+        System.out.println("Traversal in reverse direction"); 
+        while (last != null) { 
+            System.out.print(last.data + " "); 
+            last = last.prev; 
+        } 
+    } 
+    public static void main(String[] args) 
+    { 
+        DoubleLinked dll = new DoubleLinked(); 
+        dll.append(6); 
+        dll.push(7);  
+        dll.push(1); 
+        dll.append(4); 
+        dll.InsertAfter(dll.head.next, 8); 
+  
+        System.out.println("Created DLL is: "); 
+        dll.printlist(dll.head); 
+    } 
+} 
