@@ -48,7 +48,7 @@ public class DoubleLinked {
 
         Node new_node = new Node(new_data); 
   
-        Node last = head; /* used in step 5*/
+        Node last = head;
   
         new_node.next = null; 
   
